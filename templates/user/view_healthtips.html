@@ -1,0 +1,62 @@
+{% extends 'user/userhome.html' %}
+{% block body %}
+
+<div class="max-w-7xl mx-auto pt-10 pb-20">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+            <div class="inline-flex items-center px-4 py-2 bg-emerald-100 rounded-full mb-4">
+                <i class="fas fa-heartbeat text-emerald-600 mr-2"></i>
+                <span class="text-emerald-700 font-bold text-xs uppercase tracking-widest">Wellness Guide</span>
+            </div>
+            <h2 class="text-4xl font-black text-gray-900">Daily Health Tips</h2>
+            <p class="text-gray-500 mt-2">Personalized advice to improve your nutritional well-being.</p>
+        </div>
+        <div class="text-gray-400 text-sm font-medium">
+            <i class="fas fa-calendar-alt mr-2"></i> Updated for {% now "F Y" %}
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for i in data %}
+        <div class="group bg-white rounded-[2.5rem] border border-gray-100 p-8 shadow-sm hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-200 transition-all duration-300 flex flex-col">
+            <div class="flex justify-between items-start mb-6">
+                <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                    <i class="fas fa-lightbulb text-2xl"></i>
+                </div>
+                <span class="text-[10px] font-black text-gray-300 uppercase tracking-widest">{{ i.date|date:"d M Y" }}</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors">{{ i.title }}</h3>
+            
+            <div class="bg-emerald-50/50 rounded-2xl p-4 mb-4 border border-emerald-100">
+                <p class="text-emerald-700 font-bold text-sm">
+                    <i class="fas fa-quote-left mr-2 opacity-50"></i>
+                    {{ i.tip }}
+                </p>
+            </div>
+
+            <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                {{ i.description }}
+            </p>
+
+            <div class="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-tighter">NutriVision AI Advice</span>
+                <div class="flex -space-x-2">
+                    <div class="w-6 h-6 rounded-full bg-emerald-200 border-2 border-white"></div>
+                    <div class="w-6 h-6 rounded-full bg-teal-200 border-2 border-white"></div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full py-20 text-center">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-book-open text-3xl text-gray-200"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800">No tips available yet</h3>
+            <p class="text-gray-400">Check back later for new nutritional insights.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

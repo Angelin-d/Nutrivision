@@ -1,0 +1,374 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Registered Users</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#    <h2>Registered User Details</h2>#}
+{##}
+{#    <table border="1">#}
+{#        <tr>#}
+{#            <th>Name</th>#}
+{#            <th>Email</th>#}
+{#            <th>Image</th>#}
+{#            <th>Age</th>#}
+{#            <th>Gender</th>#}
+{#            <th>pin</th>#}
+{#            <th>Phone</th>#}
+{#            <th>place</th>#}
+{#            <th>district</th>#}
+{##}
+{#        </tr>#}
+{##}
+{#        <!-- Example Row (Replace with dynamic values in real use) -->#}
+{#        {% for i in data %}#}
+{#        <tr>#}
+{#            <td>{{ i.name }}</td>#}
+{#            <td>{{ i.email }}</td>#}
+{#            <td><img src="{{ i.image.url}}" alt="Imaage" style="width: 100px; height: auto; border-radius: 5px;"></td>#}
+{#            <td>{{ i.age }}</td>#}
+{#            <td>{{ i.gender }}</td>#}
+{##}
+{#            <td>{{ i.phone }}</td>#}
+{#            <td>{{ i.pin }}</td>#}
+{#            <td>{{ i.place }}</td>#}
+{#            <td>{{ i.district }}</td>#}
+{#        </tr>#}
+{#{% endfor %}#}
+{#        <!-- Add more rows as needed -->#}
+{#    </table>#}
+{##}
+{#</body>#}
+{#</html>#}
+{##}
+{#{% extends 'adminn/index.html' %}#}
+{#{% block body %}#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Registered Users</title>#}
+{#    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">#}
+{#</head>#}
+{#<body style="margin: 0;font-family: 'Times New Roman'; background-color: #0f0f23; color: #ffffff; padding: 40px;">#}
+{##}
+{#    <div style="max-width: 1200px; margin: auto; background-color: #1a1a2e; padding: 30px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);">#}
+{#        <h2 style="color: #7a5fff; text-align: center; margin-bottom: 30px;font-family: 'Times New Roman'">REGISTERED USERS</h2>#}
+{##}
+{#        <table style="width: 100%; border-collapse: collapse; text-align: left;">#}
+{#            <thead>#}
+{#                <tr style="background-color: #121228;">#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Name</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Email</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Image</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Age</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Gender</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Address</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Phone</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;"></th>#}
+{##}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">Place</th>#}
+{#                    <th style="padding: 12px 16px; color: #7a5fff;">District</th>#}
+{#                </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#                {% for i in data %}#}
+{#                <tr style="border-bottom: 1px solid #333;">#}
+{#                    <td style="padding: 10px 16px; color: #eee;">{{ i.name }}</td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;">{{ i.email }}</td>#}
+{#                    <td style="padding: 10px 16px;">#}
+{#                        <img src="{{ i.image.url }}" alt="User Image" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">#}
+{#                    </td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;">{{ i.age }}</td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;">{{ i.gender }}</td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;">{{ i.pin }},{{ i.place }} ,{{ i.district }}</td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;"> {{ i.phone }} </td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;"> <a href="/myapp/viewpersonaldetails/{{ i.id }}#about">PERSONALDETAILS</a> </td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;"></td>#}
+{#                    <td style="padding: 10px 16px; color: #ccc;"></td>#}
+{#                </tr>#}
+{#                {% empty %}#}
+{#                <tr>#}
+{#                    <td colspan="9" style="padding: 15px; text-align: center; color: #999;">No registered users found.</td>#}
+{#                </tr>#}
+{#                {% endfor %}#}
+{#            </tbody>#}
+{#        </table>#}
+{#    </div>#}
+{##}
+{#</body>#}
+{#</html>#}
+{#{% endblock %}#}
+
+
+{% extends 'adminn/index.html' %}
+
+{% block body %}
+<style>
+    /* Animation */
+    @keyframes slideInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .users-page-wrapper {
+        animation: slideInUp 0.5s ease-out;
+    }
+
+    /* Section Hero */
+    .users-hero {
+        background: linear-gradient(135deg, var(--nv-green) 0%, #044634 100%);
+        border-radius: var(--radius-md);
+        padding: 40px;
+        color: white;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .users-hero h2 { font-weight: 700; margin-bottom: 10px; }
+    .users-hero p { font-weight: 300; opacity: 0.85; max-width: 550px; }
+
+    /* Bento Card */
+    .users-card {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Table Styling */
+    .table-nv-users { margin-bottom: 0; }
+    .table-nv-users thead th {
+        background-color: #f8faf9;
+        color: var(--nv-green);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1.2px;
+        font-weight: 700;
+        padding: 20px;
+        border: none;
+    }
+
+    .table-nv-users tbody td {
+        padding: 22px 20px;
+        vertical-align: middle;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.95rem;
+    }
+
+    /* User Image */
+    .user-image-wrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid var(--nv-light);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .user-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* User Profile Circle (Fallback) */
+    .user-profile-circle {
+        width: 60px;
+        height: 60px;
+        background: var(--nv-light);
+        color: var(--nv-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        border: 2px solid white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .user-name-cell {
+        font-weight: 600;
+        color: var(--nv-green);
+    }
+
+    .user-email-cell {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    /* Info Pills */
+    .info-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f1f5f9;
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #64748b;
+    }
+
+    .gender-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #fdfdf0;
+        border: 1px solid var(--nv-accent);
+        padding: 4px 12px;
+        border-radius: 8px;
+        color: var(--nv-green);
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Address Cell */
+    .address-cell {
+        color: #4a5568;
+        line-height: 1.5;
+        font-size: 0.9rem;
+    }
+
+    .address-cell i {
+        color: var(--nv-accent);
+        margin-right: 4px;
+    }
+
+    /* Action Link */
+    .action-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        background: var(--nv-green);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+    .action-link:hover {
+        background: #044634;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(5, 87, 66, 0.3);
+    }
+
+    .glow-circle {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: var(--nv-accent);
+        filter: blur(80px);
+        border-radius: 50%;
+        top: -100px;
+        right: -50px;
+        opacity: 0.15;
+    }
+</style>
+
+<div class="users-page-wrapper">
+    <div class="users-hero">
+        <div class="glow-circle"></div>
+        <div class="position-relative z-index-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="/myapp/adminhome/" class="text-white opacity-75 text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Registered Users</li>
+                </ol>
+            </nav>
+            <h2>Registered Users</h2>
+            <p>Manage and view detailed information about all registered members of the NutriVision community.</p>
+        </div>
+    </div>
+
+    <div class="users-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold m-0" style="color: var(--nv-green);">Community Members</h4>
+            <div class="text-muted small">Total Users: <strong>{{ data|length }}</strong></div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-nv-users">
+                <thead>
+                    <tr>
+                        <th style="width: 12%;">Profile</th>
+                        <th style="width: 18%;">Name & Email</th>
+                        <th style="width: 8%;">Age</th>
+                        <th style="width: 10%;">Gender</th>
+                        <th style="width: 20%;">Address</th>
+                        <th style="width: 12%;">Phone</th>
+                        <th style="width: 20%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td>
+                            <div class="user-image-wrapper">
+                                <img src="{{ i.image.url }}" alt="{{ i.name }}">
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="user-name-cell">{{ i.name }}</div>
+                            <div class="user-email-cell">{{ i.email }}</div>
+                        </td>
+
+                        <td>
+                            <span class="info-pill">
+                                <i class="bi bi-calendar-event"></i> {{ i.age }} yrs
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="gender-badge">
+                                <i class="bi bi-person"></i>
+                                <span>{{ i.gender }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="address-cell">
+                                <i class="bi bi-geo-alt-fill"></i>{{ i.pin }}, {{ i.place }}, {{ i.district }}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="info-pill">
+                                <i class="bi bi-telephone"></i> {{ i.phone }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <a href="/myapp/viewpersonaldetails/{{ i.id }}#about" class="action-link">
+                                <i class="bi bi-person-lines-fill"></i>
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5">
+                            <div class="opacity-50">
+                                <i class="bi bi-people display-1"></i>
+                                <h5 class="mt-3">No registered users found</h5>
+                                <p class="small">User registrations will appear here...</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

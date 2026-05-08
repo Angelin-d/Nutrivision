@@ -1,0 +1,218 @@
+{% extends 'adminn/index.html' %}
+
+{% block body %}
+<style>
+    /* Content Specific Animations */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Section Hero Styling */
+    .section-hero {
+        background: linear-gradient(135deg, var(--nv-green) 0%, #044634 100%);
+        border-radius: var(--radius-md);
+        padding: 40px;
+        color: white;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .section-hero h2 {
+        font-weight: 700;
+        letter-spacing: -1px;
+        margin-bottom: 10px;
+    }
+
+    .section-hero p {
+        font-weight: 300;
+        opacity: 0.8;
+        max-width: 600px;
+        margin-bottom: 0;
+    }
+
+    /* Bento Table Card */
+    .bento-table-card {
+        background: white;
+        border-radius: var(--radius-md);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+        padding: 35px;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .table-responsive {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .nv-table {
+        margin-bottom: 0;
+    }
+
+    .nv-table thead {
+        background-color: #f8faf9;
+    }
+
+    .nv-table th {
+        color: var(--nv-green);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        font-weight: 700;
+        padding: 20px;
+        border: none;
+    }
+
+    .nv-table td {
+        padding: 20px;
+        vertical-align: middle;
+        color: #4a5568;
+        border-bottom: 1px solid #f0f4f2;
+        font-size: 0.9rem;
+    }
+
+    .nv-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Action Buttons */
+    .action-link {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 8px 16px;
+        border-radius: 10px;
+        transition: all 0.2s;
+    }
+
+    .btn-edit {
+        background: #eefdf3;
+        color: #2d6a4f;
+    }
+
+    .btn-edit:hover {
+        background: var(--nv-green);
+        color: white;
+    }
+
+    .btn-delete {
+        background: #fff5f5;
+        color: #c53030;
+    }
+
+    .btn-delete:hover {
+        background: #c53030;
+        color: white;
+    }
+
+    .add-floating-btn {
+        background: var(--nv-accent);
+        color: var(--nv-green);
+        padding: 12px 25px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(190, 242, 100, 0.3);
+    }
+
+    .add-floating-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(190, 242, 100, 0.4);
+        color: var(--nv-green);
+    }
+
+    /* Custom Badge for Dates */
+    .date-badge {
+        background: #f1f5f9;
+        color: #475569;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+</style>
+
+<div class="page-container">
+    <div class="section-hero">
+        <div class="position-relative z-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="/myapp/adminhome/" class="text-white opacity-75 text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Health Tips</li>
+                </ol>
+            </nav>
+            <h2>Educational Library</h2>
+            <p>Curate and manage daily health insights. These tips are broadcasted to users to help them overcome identified nutritional deficiencies.</p>
+        </div>
+        <div style="position: absolute; right: -20px; top: -20px; width: 150px; height: 150px; background: var(--nv-accent); border-radius: 50%; opacity: 0.1;"></div>
+    </div>
+
+    <div class="bento-table-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold m-0" style="color: var(--nv-green);">Published Tips</h4>
+            <a href="/myapp/add_healthtips/#about" class="add-floating-btn">
+                <i class="bi bi-plus-lg"></i> Add New Insight
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table nv-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Title</th>
+                        <th style="width: 20%;">Summary</th>
+                        <th style="width: 30%;">Full Description</th>
+                        <th style="width: 15%;">Published Date</th>
+                        <th style="width: 15%; text-align: right;">Management</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td><span class="fw-bold" style="color: var(--nv-green);">{{ i.title }}</span></td>
+                        <td>{{ i.tip }}</td>
+                        <td>
+                            <div class="text-muted" style="max-height: 60px; overflow-y: auto; font-size: 0.85rem; line-height: 1.5;">
+                                {{ i.description }}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="date-badge">
+                                <i class="bi bi-calendar3 me-1"></i> {{ i.date }}
+                            </span>
+                        </td>
+                        <td style="text-align: right;">
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="/myapp/edit_healthtips/{{ i.id }}#about" class="action-link btn-edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="/myapp/delete_tips/{{ i.id }}" class="action-link btn-delete" onclick="return confirm('Archive this health tip?')">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="bi bi-inbox text-muted display-4"></i>
+                            <p class="mt-3 text-muted">No health tips have been published yet.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

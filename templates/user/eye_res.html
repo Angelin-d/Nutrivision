@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eye Analysis Result</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4facfe;
+        }
+
+        .result-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .status-icon.healthy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-icon.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-text h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .status-text p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .result-label {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .result-label.healthy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .result-label.issue {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .image-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .image-section h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .eye-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .solution-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .solution-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .solution-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.8;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border-radius: 25px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4facfe;
+            border: 2px solid #4facfe;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .no-solution {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .no-solution svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            color: #28a745;
+        }
+
+        .no-solution h3 {
+            font-size: 24px;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .no-solution p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .disclaimer p {
+            font-size: 14px;
+            color: #856404;
+            margin: 0;
+        }
+
+        .disclaimer strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .result-card {
+                padding: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>👁️ Eye Health Analysis</h1>
+        <p>Your comprehensive eye health assessment results</p>
+    </div>
+
+    <div class="content">
+        <!-- Image Section -->
+        <div class="image-section">
+            <h3>Analyzed Image</h3>
+            <img src="{{ img }}" alt="Eye Analysis" class="eye-image">
+        </div>
+
+        <!-- Result Card -->
+        <div class="result-card">
+            <div class="result-status">
+                {% if res == "healthy" %}
+                <div class="status-icon healthy">✓</div>
+                {% else %}
+                <div class="status-icon warning">⚠</div>
+                {% endif %}
+
+                <div class="status-text">
+                    <h2>Analysis Result</h2>
+                    <p>Based on our AI-powered assessment</p>
+                </div>
+            </div>
+
+            <div>
+                <strong style="color: #333; font-size: 16px;">Diagnosis:</strong>
+                {% if res == "healthy" %}
+                <span class="result-label healthy">{{ res|title }}</span>
+                {% else %}
+                <span class="result-label issue">{{ res|title }}</span>
+                {% endif %}
+            </div> <div>
+                {{ ex }}
+            </div>
+        </div>
+
+        <!-- Solution or Healthy Message -->
+        {% if s == 1 %}
+        <div class="solution-section">
+            <h3>
+                <span>💡</span>
+                <span>Recommended Solution</span>
+            </h3>
+            <div class="solution-content">
+                {{ sol }}
+            </div>
+        </div>
+        {% else %}
+        <div class="no-solution">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h3>Excellent News!</h3>
+            <p>Your eyes appear to be healthy. No treatment or special care is needed at this time.<br>
+            Continue maintaining good eye hygiene and regular check-ups with your eye care professional.</p>
+        </div>
+        {% endif %}
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <strong>⚠️ Important Disclaimer</strong>
+            <p>This analysis is for informational purposes only and should not replace professional medical advice. Please consult with an eye care specialist or ophthalmologist for accurate diagnosis and treatment.</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+            <a href="/myapp/predict_eye/" class="btn btn-primary">Analyze Another Image</a>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

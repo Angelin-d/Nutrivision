@@ -1,0 +1,370 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Chatbot</title>#}
+{#    <style>#}
+{#        body {#}
+{#            font-family: Arial, sans-serif;#}
+{#            background: #f4f4f4;#}
+{#            padding: 20px;#}
+{#        }#}
+{##}
+{#        #chatbox {#}
+{#            width: 100%;#}
+{#            max-width: 600px;#}
+{#            margin: auto;#}
+{#            background: white;#}
+{#            padding: 20px;#}
+{#            border-radius: 8px;#}
+{#            height: 500px;#}
+{#            overflow-y: scroll;#}
+{#            box-shadow: 0px 0px 10px #ccc;#}
+{#        }#}
+{##}
+{#        .message {#}
+{#            padding: 10px;#}
+{#            margin: 10px 0;#}
+{#            border-radius: 5px;#}
+{#            max-width: 80%;#}
+{#        }#}
+{##}
+{#        .user {#}
+{#            background: #cce5ff;#}
+{#            text-align: right;#}
+{#            margin-left: auto;#}
+{#        }#}
+{##}
+{#        .bot {#}
+{#            background: #e2e2e2;#}
+{#            text-align: left;#}
+{#            margin-right: auto;#}
+{#        }#}
+{##}
+{#        #input-area {#}
+{#            max-width: 600px;#}
+{#            margin: 20px auto;#}
+{#            display: flex;#}
+{#        }#}
+{##}
+{#        #message {#}
+{#            flex: 1;#}
+{#            padding: 10px;#}
+{#            border-radius: 5px;#}
+{#            border: 1px solid #aaa;#}
+{#        }#}
+{##}
+{#        #send-btn {#}
+{#            padding: 10px 20px;#}
+{#            margin-left: 10px;#}
+{#            background: #007bff;#}
+{#            color: white;#}
+{#            border: none;#}
+{#            border-radius: 5px;#}
+{#            cursor: pointer;#}
+{#        }#}
+{##}
+{#        #send-btn:hover {#}
+{#            background: #0056b3;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#<h2 style="text-align:center;"> Chatbot</h2>#}
+{##}
+{#<div id="chatbox"></div>#}
+{##}
+{#<div id="input-area">#}
+{#    <input type="text" id="message" placeholder="Type your message..." />#}
+{#    <button id="send-btn">Send</button>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#    document.getElementById("send-btn").onclick = sendMessage;#}
+{##}
+{#    function sendMessage() {#}
+{#        const messageField = document.getElementById("message");#}
+{#        const message = messageField.value.trim();#}
+{##}
+{#        if (!message) return;#}
+{##}
+{#        addMessage(message, "user");#}
+{#        messageField.value = "";#}
+{##}
+{#        fetch("/myapp/chatbot/", {#}
+{#            method: "POST",#}
+{#            headers: { "Content-Type": "application/json" },#}
+{#            body: JSON.stringify({ message: message })#}
+{#        })#}
+{#        .then(response => response.json())#}
+{#        .then(data => {#}
+{#            addMessage(data.response, "bot");#}
+{#        })#}
+{#        .catch(err => {#}
+{#            addMessage("Error: " + err, "bot");#}
+{#        });#}
+{#    }#}
+{##}
+{#    function addMessage(text, type) {#}
+{#        const chatbox = document.getElementById("chatbox");#}
+{#        const msgDiv = document.createElement("div");#}
+{#        msgDiv.className = "message " + type;#}
+{#        msgDiv.innerText = text;#}
+{#        chatbox.appendChild(msgDiv);#}
+{#        chatbox.scrollTop = chatbox.scrollHeight;#}
+{#    }#}
+{#</script>#}
+{##}
+{#</body>#}
+{#</html>#}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        #chatbox {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        #chatbox::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chatbox::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #chatbox::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 10px;
+        }
+
+        #chatbox::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .message {
+            padding: 12px 18px;
+            margin: 12px 0;
+            border-radius: 18px;
+            max-width: 75%;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot {
+            background: white;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        #input-area {
+            padding: 20px 25px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 12px;
+        }
+
+        #message {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 25px;
+            border: 2px solid #e0e0e0;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #message:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #send-btn {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        #send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        #send-btn:active {
+            transform: translateY(0);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 15px;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>💬 AI Assistant</h2>
+        <p>How can I help you today?</p>
+    </div>
+
+    <div id="chatbox">
+        <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <p>Start a conversation by typing a message below</p>
+        </div>
+    </div>
+
+    <div id="input-area">
+        <input type="text" id="message" placeholder="Type your message..." />
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+
+<script>
+    const chatbox = document.getElementById("chatbox");
+    const messageField = document.getElementById("message");
+    const sendBtn = document.getElementById("send-btn");
+
+    // Remove empty state on first message
+    let firstMessage = true;
+
+    sendBtn.onclick = sendMessage;
+    messageField.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendMessage();
+    });
+
+    function sendMessage() {
+        const message = messageField.value.trim();
+
+        if (!message) return;
+
+        if (firstMessage) {
+            chatbox.innerHTML = "";
+            firstMessage = false;
+        }
+
+        addMessage(message, "user");
+        messageField.value = "";
+
+        fetch("/myapp/chatbot/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            addMessage(data.response, "bot");
+        })
+        .catch(err => {
+            addMessage("Sorry, I encountered an error. Please try again.", "bot");
+            console.error(err);
+        });
+    }
+
+    function addMessage(text, type) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message " + type;
+        msgDiv.innerText = text;
+        chatbox.appendChild(msgDiv);
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+</script>
+
+</body>
+</html>

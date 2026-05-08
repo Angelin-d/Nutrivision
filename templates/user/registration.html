@@ -1,0 +1,283 @@
+{#<html>#}
+{#<head>#}
+{#    <title>Nutrition Registration Form</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#    <h2>User Registration - Nutrition Deficiency System</h2>#}
+{##}
+{#    <form action="/myapp/user_reg_post/" method="post" enctype="multipart/form-data">{% csrf_token %}#}
+{##}
+{#        <!-- Basic User Info -->#}
+{#        <label>Name:</label><br>#}
+{#        <input type="text" name="name" required><br><br>#}
+{##}
+{#        <label>Email:</label><br>#}
+{#<input type="email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">#}
+{##}
+{#        <label>age:</label><br>#}
+{#<input type="number" name="age" min="1" max="120" required placeholder="Enter your age"><br><br>#}
+{##}
+{#        <!-- Personal Details -->#}
+{#        <label>photo:</label><br>#}
+{#        <input type="file" name="image"><br><br>#}
+{##}
+{#        <label>Gender:</label><br>#}
+{#        <select name="gender">#}
+{#            <option value="">--Select--</option>#}
+{#            <option value="Male">Male</option>#}
+{#            <option value="Female">Female</option>#}
+{#            <option value="Other">Other</option>#}
+{#        </select><br><br>#}
+{##}
+{##}
+{#<label for="phone">Phone Number:</label>#}
+{#<input type="tel" id="phone" name="phone"#}
+{#       pattern="[0-9]{10}"#}
+{#       maxlength="10" minlength="10"#}
+{#       required#}
+{#       placeholder="Enter 10-digit phone number">#}
+{#<br><br>#}
+{##}
+{##}
+{#       <label for="pin">PIN Code:</label>#}
+{#<input type="text" id="pin" name="pin"#}
+{#       pattern="[0-9]{6}"#}
+{#       maxlength="6" minlength="6"#}
+{#       required#}
+{#       placeholder="Enter 6-digit PIN">#}
+{#<br><br>#}
+{##}
+{##}
+{#        <label>place:</label><br>#}
+{#        <input type="text" name="place"><br><br>#}
+{##}
+{##}
+{#        <label>district:</label><br>#}
+{#        <input type="text" name="district"><br><br>#}
+{##}
+{#        <label for="username">Username:</label>#}
+{#<input type="text" id="username" name="username"#}
+{#       pattern="^[a-zA-Z0-9_]{4,15}$"#}
+{#       minlength="4" maxlength="15"#}
+{#       required#}
+{#       placeholder="Enter username (4–15 chars)">#}
+{#<br><br>#}
+{##}
+{##}
+{#        <label>password:</label><br>#}
+{#        <label for="password">Password:</label>#}
+{#<input type="password" id="password" name="password"#}
+{#       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"#}
+{#       title="Must be at least 8 characters, including uppercase, lowercase, number, and special character"#}
+{#       required#}
+{#       placeholder="Enter strong password">#}
+{#<br><br>#}
+{##}
+{##}
+{#        <input type="submit" value="Register">#}
+{##}
+{#    </form>#}
+{##}
+{#</body>#}
+{#</html>#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Nutrition System</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #0f0f1a;
+      font-family: 'Times New Roman';
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    .form-wrapper {
+      max-width: 700px;
+      margin: 50px auto;
+      background-color: #1a1a2e;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      animation: fadeInUp 0.6s ease-in-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h3 {
+      color: #eeeeee;
+      font-weight: bold;
+    }
+
+    p {
+      color: #aaa;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      background-color: #000000;
+      border: none;
+      color: white;
+      padding: 12px;
+    }
+
+    .form-control::placeholder {
+      color: #777;
+    }
+
+    .btn-submit {
+      background-color: #00adb5;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      color: white;
+      transition: background 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #019ca3;
+    }
+
+    label {
+      font-weight: 500;
+      color: #ccc;
+    }
+
+    .form-link {
+      color: #bbb;
+      font-size: 0.9rem;
+    }
+
+    .form-link:hover {
+      text-decoration: underline;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-wrapper">
+  <div class="text-center mb-4">
+    <h3><i class="bi bi-person-plus-fill"></i> Register</h3>
+    <p>Create your account to get started</p>
+  </div>
+
+  <form action="/myapp/user_reg_post/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="name">Full Name</label>
+        <input type="text" name="name" class="form-control" id="name" placeholder="Enter full name" required pattern="[a-z A-Z]{3,50}">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="email">Email</label>
+        <input type="email" name="email" class="form-control" id="email"
+               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+               placeholder="Enter email" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="age">Age</label>
+        <input type="number" name="age" class="form-control" id="age" min="1" max="120" required placeholder="Enter age" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="image">Photo</label>
+        <input type="file" name="image" class="form-control-file" id="image">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select name="gender" class="form-control" id="gender" required>
+        <option value="">-- Select Gender --</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+{#    <div class="form-row">#}
+{#      <div class="form-group col-md-6">#}
+{#        <label for="phone">Phone Number</label>#}
+{#        <input type="tel" name="phone" class="form-control" id="phone"#}
+{#               pattern="[0-9]{10}" maxlength="10" minlength="10"#}
+{#               placeholder="Enter 10-digit phone" required>#}
+{#      </div>#}
+{#      <div class="form-group col-md-6">#}
+{#        <label for="pin">PIN Code</label>#}
+{#        <input type="text" name="pin" class="form-control" id="pin"#}
+{#               pattern="[0-9]{6}" maxlength="6" minlength="6"#}
+{#               placeholder="Enter 6-digit PIN" required>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    <div class="form-row">#}
+{#      <div class="form-group col-md-6">#}
+{#        <label for="place">Place</label>#}
+{#        <input type="text" name="place" class="form-control" id="place" placeholder="Enter your place">#}
+{#      </div>#}
+{#      <div class="form-group col-md-6">#}
+{#        <label for="district">District</label>#}
+{#        <input type="text" name="district" class="form-control" id="district" placeholder="Enter your district">#}
+{#      </div>#}
+{#    </div>#}
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">Username</label>
+        <input type="text" name="username" class="form-control" id="username"
+               pattern="^[a-zA-Z0-9_]{4,15}$" minlength="4" maxlength="15"
+               placeholder="4–15 characters" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="password">Password</label>
+        <input type="password" name="password" class="form-control" id="password"
+               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+               title="At least 8 characters including uppercase, lowercase, number, and special character"
+               placeholder="Create a strong password" required>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-submit">
+        Register <i class="bi bi-check2-circle ml-2"></i>
+      </button>
+    </div>
+
+    <div class="text-center mt-3">
+      <a href="/myapp/login_get/" class="form-link">Already have an account? Login here</a>
+    </div>
+
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+{#{% extends 'adminn/index.html' %}#}
+{#{% block body %}#}
+{#<div style="margin: 50px auto; max-width: 10000px; font-family:'Times New Roman'; color: #ffffff;">#}
+{#  <div style="background-color: #1a1a2e; padding: 30px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);">#}
+{#    <center>#}
+{#      <h2 style="color: #7a5fff; margin-bottom: 20px; font-family: 'Times New Roman';">PERSONAL DETAILS</h2>#}
+{#    </center>#}
+{##}
+{#    <table style="width: 100%; border-collapse: collapse; text-align: left;">#}
+{#      <thead>#}
+{#        <tr style="background-color: #121228; color: #7a5fff;">#}
+{#          <th style="padding: 14px 18px;">health conditions</th>#}
+{#          <th style="padding: 14px 18px;">Dietary Preference</th>#}
+{#          <th style="padding: 14px 18px;">BMI</th>#}
+{#          <th style="padding: 14px 18px;">Allergies</th>#}
+{#          <th style="padding: 14px 18px;">Supplements</th>#}
+{#          <th style="padding: 14px 18px;">Smoking Habit</th>#}
+{#          <th style="padding: 14px 18px;">Alcohol Consumption</th>#}
+{#          <th style="padding: 14px 18px;">Physical Conditions</th>#}
+{#          <th style="padding: 14px 18px;">Medical History</th>#}
+{#          <th style="padding: 14px 18px;">Height</th>#}
+{#          <th style="padding: 14px 18px;">Weight</th>#}
+{#        <th style="padding: 14px 18px;">Medical Report</th>#}
+{##}
+{#          <th style="padding: 14px 18px;">Actions</th>#}
+{#        </tr>#}
+{#      </thead>#}
+{#      <tbody>#}
+{#        {% for i in data %}#}
+{#        <tr>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.healthconditions }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.dietry_prefer }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.bmi }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.allergies }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.supplements_taken }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.smoking_habit }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.alcohol_consumption }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.physical_conditions }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.medical_history }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.height }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.weight }}</td>#}
+{#          <td style="padding: 12px 18px; color: #ccc;">{{ i.alcohol_consumption }}</td>#}
+{#         <td style="padding: 12px 18px;">#}
+{#            <u style="color: #0b5ed7"> <a href="/media/{{ i.image }}" width="80" height="80" style="border-radius: 6px; object-fit: cover;">view report</a></u>#}
+{#          </td>#}
+{#        </tr>#}
+{#        {% endfor %}#}
+{#      </tbody>#}
+{#    </table>#}
+{##}
+{#    <div style="margin-top: 30px; text-align: center;">#}
+{#      <a href="/myapp/add_personaldetails"#}
+{#         style="background-color: #7a5fff; padding: 10px 20px; border-radius: 6px; color: white; text-decoration: none;">#}
+{#         ➕ Add New#}
+{#      </a>#}
+{#    </div>#}
+{##}
+{#  </div>#}
+{#</div>#}
+{#{% endblock %}#}
+
+{% extends 'adminn/index.html' %}
+
+{% block body %}
+<style>
+    /* Animation */
+    @keyframes slideInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .personal-details-page-wrapper {
+        animation: slideInUp 0.5s ease-out;
+    }
+
+    /* Section Hero */
+    .personal-details-hero {
+        background: linear-gradient(135deg, var(--nv-green) 0%, #044634 100%);
+        border-radius: var(--radius-md);
+        padding: 40px;
+        color: white;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .personal-details-hero h2 { font-weight: 700; margin-bottom: 10px; }
+    .personal-details-hero p { font-weight: 300; opacity: 0.85; max-width: 550px; }
+
+    /* Bento Card */
+    .personal-details-card {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Table Styling */
+    .table-nv-personal { margin-bottom: 0; }
+    .table-nv-personal thead th {
+        background-color: #f8faf9;
+        color: var(--nv-green);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1.2px;
+        font-weight: 700;
+        padding: 20px 16px;
+        border: none;
+        white-space: nowrap;
+    }
+
+    .table-nv-personal tbody td {
+        padding: 20px 16px;
+        vertical-align: middle;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.9rem;
+        color: #4a5568;
+    }
+
+    /* Health Badge */
+    .health-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fef3f2;
+        border: 1px solid #fecaca;
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: #dc2626;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Diet Badge */
+    .diet-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: #16a34a;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Info Pill */
+    .info-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f1f5f9;
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #64748b;
+    }
+
+    /* Metric Badge */
+    .metric-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fdfdf0;
+        border: 1px solid var(--nv-accent);
+        padding: 6px 14px;
+        border-radius: 8px;
+        color: var(--nv-green);
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    /* Habit Badge - Warning */
+    .habit-badge-warning {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fef9c3;
+        border: 1px solid #fde047;
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: #ca8a04;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Habit Badge - Safe */
+    .habit-badge-safe {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: #0284c7;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Report Link */
+    .report-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        background: var(--nv-green);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+    .report-link:hover {
+        background: #044634;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(5, 87, 66, 0.3);
+    }
+
+    .glow-circle {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: var(--nv-accent);
+        filter: blur(80px);
+        border-radius: 50%;
+        top: -100px;
+        right: -50px;
+        opacity: 0.15;
+    }
+
+    /* Scrollable Table */
+    .table-scroll-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+
+<div class="personal-details-page-wrapper">
+    <div class="personal-details-hero">
+        <div class="glow-circle"></div>
+        <div class="position-relative z-index-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="/myapp/adminhome/" class="text-white opacity-75 text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/myapp/registered_users/" class="text-white opacity-75 text-decoration-none">Users</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Personal Details</li>
+                </ol>
+            </nav>
+            <h2>Health & Personal Details</h2>
+            <p>Comprehensive health profile including dietary preferences, medical conditions, and lifestyle habits for personalized nutrition planning.</p>
+        </div>
+    </div>
+
+    <div class="personal-details-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold m-0" style="color: var(--nv-green);">Medical Profile</h4>
+            <div class="text-muted small">Total Records: <strong>{{ data|length }}</strong></div>
+        </div>
+
+        <div class="table-scroll-wrapper">
+            <table class="table table-nv-personal">
+                <thead>
+                    <tr>
+                        <th>Health Conditions</th>
+                        <th>Dietary Preference</th>
+                        <th>Allergies</th>
+                        <th>Supplements</th>
+                        <th>Smoking Habit</th>
+                        <th>Alcohol</th>
+                        <th>Physical Conditions</th>
+                        <th>Height</th>
+                        <th>Weight</th>
+                        <th>Medical Report</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td>
+                            <div class="health-badge">
+                                <i class="bi bi-heart-pulse"></i>
+                                {{ i.healthconditions }}
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="diet-badge">
+                                <i class="bi bi-check-circle-fill"></i>
+                                {{ i.dietry_prefer }}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="info-pill">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                {{ i.allergies|default:"None" }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="info-pill">
+                                <i class="bi bi-capsule"></i>
+                                {{ i.supplements_taken|default:"None" }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if i.smoking_habit == "Yes" or i.smoking_habit == "yes" %}
+                                <div class="habit-badge-warning">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    {{ i.smoking_habit }}
+                                </div>
+                            {% else %}
+                                <div class="habit-badge-safe">
+                                    <i class="bi bi-check-circle"></i>
+                                    {{ i.smoking_habit }}
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i.alcohol_consumption == "Yes" or i.alcohol_consumption == "yes" or i.alcohol_consumption == "Regular" %}
+                                <div class="habit-badge-warning">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    {{ i.alcohol_consumption }}
+                                </div>
+                            {% else %}
+                                <div class="habit-badge-safe">
+                                    <i class="bi bi-check-circle"></i>
+                                    {{ i.alcohol_consumption }}
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <span class="info-pill">
+                                <i class="bi bi-activity"></i>
+                                {{ i.physical_conditions }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="metric-badge">
+                                <i class="bi bi-arrows-vertical"></i>
+                                {{ i.height }} cm
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="metric-badge">
+                                <i class="bi bi-speedometer2"></i>
+                                {{ i.weight }} kg
+                            </div>
+                        </td>
+
+                        <td>
+                            <a href="/media/{{ i.image }}" target="_blank" class="report-link">
+                                <i class="bi bi-file-earmark-medical"></i>
+                                View Report
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10" class="text-center py-5">
+                            <div class="opacity-50">
+                                <i class="bi bi-clipboard-data display-1"></i>
+                                <h5 class="mt-3">No personal details found</h5>
+                                <p class="small">Health information will appear here...</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

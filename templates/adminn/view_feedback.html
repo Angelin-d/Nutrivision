@@ -1,0 +1,193 @@
+{% extends 'adminn/index.html' %}
+
+{% block body %}
+<style>
+    /* Animation */
+    @keyframes slideInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-page-wrapper {
+        animation: slideInUp 0.5s ease-out;
+    }
+
+    /* Section Hero */
+    .feedback-hero {
+        background: linear-gradient(135deg, var(--nv-green) 0%, #044634 100%);
+        border-radius: var(--radius-md);
+        padding: 40px;
+        color: white;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .feedback-hero h2 { font-weight: 700; margin-bottom: 10px; }
+    .feedback-hero p { font-weight: 300; opacity: 0.85; max-width: 550px; }
+
+    /* Bento Card */
+    .feedback-card {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Table Styling */
+    .table-nv-feedback { margin-bottom: 0; }
+    .table-nv-feedback thead th {
+        background-color: #f8faf9;
+        color: var(--nv-green);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1.2px;
+        font-weight: 700;
+        padding: 20px;
+        border: none;
+    }
+
+    .table-nv-feedback tbody td {
+        padding: 22px 20px;
+        vertical-align: middle;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.95rem;
+    }
+
+    /* Rating Component */
+    .rating-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #fdfdf0; /* Soft highlight */
+        border: 1px solid var(--nv-accent);
+        padding: 4px 12px;
+        border-radius: 8px;
+        color: var(--nv-green);
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .star-filled { color: var(--nv-accent); }
+    .star-empty { color: #e2e8f0; }
+
+    /* User Identification */
+    .user-profile-circle {
+        width: 38px; height: 38px;
+        background: var(--nv-light);
+        color: var(--nv-green);
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 50%;
+        font-weight: 700; font-size: 0.8rem;
+        border: 2px solid white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .user-name-cell {
+        font-weight: 600; color: var(--nv-green);
+        display: flex; align-items: center; gap: 12px;
+    }
+
+    .feedback-quote {
+        color: #4a5568; line-height: 1.6; font-style: italic;
+        position: relative; padding-left: 15px;
+        border-left: 3px solid var(--nv-accent);
+    }
+
+    .date-pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: #f1f5f9; padding: 6px 14px;
+        border-radius: 100px; font-size: 0.8rem;
+        font-weight: 500; color: #64748b;
+    }
+
+    .glow-circle {
+        position: absolute; width: 200px; height: 200px;
+        background: var(--nv-accent); filter: blur(80px);
+        border-radius: 50%; top: -100px; right: -50px; opacity: 0.15;
+    }
+</style>
+
+<div class="feedback-page-wrapper">
+    <div class="feedback-hero">
+        <div class="glow-circle"></div>
+        <div class="position-relative z-index-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="/myapp/adminhome/" class="text-white opacity-75 text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">User Voice</li>
+                </ol>
+            </nav>
+            <h2>Community Insights</h2>
+            <p>Monitor satisfaction levels and review direct feedback to refine the NutriVision experience.</p>
+        </div>
+    </div>
+
+    <div class="feedback-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold m-0" style="color: var(--nv-green);">Customer Satisfaction</h4>
+            <div class="text-muted small">Total Entries: <strong>{{ data|length }}</strong></div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-nv-feedback">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">User</th>
+                        <th style="width: 15%;">Rating</th>
+                        <th style="width: 45%;">Feedback</th>
+                        <th style="width: 20%;">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td>
+                            <div class="user-name-cell">
+                                <div class="user-profile-circle">
+                                    {{ i.USER.name|slice:":1"|upper }}
+                                </div>
+                                <span>{{ i.USER.name }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="rating-badge">
+                                <i class="bi bi-star-fill star-filled"></i>
+                                <span>{{ i.rating }}</span>
+                                <span class="text-muted" style="font-size: 0.7rem;">/ 5</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="feedback-quote">
+                                "{{ i.feedback }}"
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="date-pill">
+                                <i class="bi bi-clock-history"></i> {{ i.date }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+                            <div class="opacity-50">
+                                <i class="bi bi-emoji-expressionless display-1"></i>
+                                <h5 class="mt-3">No feedback found</h5>
+                                <p class="small">Waiting for user data...</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

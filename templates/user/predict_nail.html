@@ -1,0 +1,108 @@
+{% extends 'user/userhome.html' %}
+{% block body %}
+
+<div class="max-w-3xl mx-auto pt-10 pb-20">
+    <div class="text-center mb-10">
+        <div class="inline-flex items-center px-4 py-2 bg-emerald-100 rounded-full mb-4">
+            <i class="fas fa-hand-sparkles text-emerald-600 mr-2"></i>
+            <span class="text-emerald-700 font-bold text-xs uppercase tracking-widest">Nail Scan</span>
+        </div>
+        <h2 class="text-3xl font-black text-gray-900">Nail Analysis</h2>
+        <p class="text-gray-500 mt-2">Upload a clear photo of your fingernails. Our AI checks for ridges, spots, or discoloration that indicate vitamin gaps.</p>
+    </div>
+
+    <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-xl shadow-emerald-500/5 p-8 md:p-12">
+        <form method="post" action="/myapp/predict_nail_post/" enctype="multipart/form-data" id="uploadForm">
+            {% csrf_token %}
+ <div class="mb-10">
+        <label class="block text-sm font-bold text-gray-700 mb-4 uppercase tracking-wider">
+            <i class="fas fa-notes-medical text-emerald-500 mr-2"></i>Pre-existing Conditions
+        </label>
+        <textarea
+            name="pc"
+            rows="3"
+            required
+            placeholder="Describe any health conditions or symptoms..."
+            class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-[1.5rem] text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-white transition-all resize-none"
+        ></textarea>
+    </div>
+            <div class="mb-10">
+                <label class="block text-sm font-bold text-gray-700 mb-4 uppercase tracking-wider text-center">Capture or Upload Nail Photo</label>
+                
+                <div id="drop-zone" class="relative group border-2 border-dashed border-gray-200 rounded-[2rem] p-10 flex flex-col items-center justify-center transition-all hover:border-emerald-400 hover:bg-emerald-50/30 cursor-pointer">
+                    <input type="file" name="img" id="file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept="image/*" required>
+                    
+                    <div id="upload-placeholder" class="text-center">
+                        <div class="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-camera text-3xl"></i>
+                        </div>
+                        <p class="text-gray-600 font-bold">Click to select or drag and drop</p>
+                        <p class="text-gray-400 text-xs mt-1">Ensure nails are clean and without polish</p>
+                    </div>
+
+                    <div id="preview-container" class="hidden w-full">
+                        <img id="image-preview" src="#" alt="Nail Preview" class="mx-auto max-h-64 rounded-2xl shadow-md border-4 border-white">
+                        <button type="button" onclick="resetUpload()" class="mt-4 text-xs font-bold text-red-500 hover:text-red-700 uppercase tracking-widest">
+                            <i class="fas fa-redo-alt mr-1"></i> Change Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
+                    <i class="fas fa-broom text-emerald-500"></i>
+                    <span class="text-[11px] font-bold text-gray-500 uppercase">Remove Polish</span>
+                </div>
+                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
+                    <i class="fas fa-hand-paper text-emerald-500"></i>
+                    <span class="text-[11px] font-bold text-gray-500 uppercase">Natural Light</span>
+                </div>
+                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
+                    <i class="fas fa-bullseye text-emerald-500"></i>
+                    <span class="text-[11px] font-bold text-gray-500 uppercase">Close-up Shot</span>
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <button type="submit" class="group relative flex items-center space-x-4 bg-gray-900 text-white px-12 py-5 rounded-2xl font-bold text-sm hover:bg-emerald-600 transition-all duration-300 shadow-xl hover:shadow-emerald-200">
+                    <i class="fas fa-fingerprint text-emerald-400 group-hover:text-white transition-colors"></i>
+                    <span>Run Diagnostic</span>
+                    <i class="fas fa-arrow-right text-[10px] opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('file-input');
+    const previewContainer = document.getElementById('preview-container');
+    const previewImage = document.getElementById('image-preview');
+    const placeholder = document.getElementById('upload-placeholder');
+    const dropZone = document.getElementById('drop-zone');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.setAttribute('src', e.target.result);
+                previewContainer.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                dropZone.classList.add('border-emerald-400', 'bg-emerald-50/20');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function resetUpload() {
+        fileInput.value = '';
+        previewContainer.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        dropZone.classList.remove('border-emerald-400', 'bg-emerald-50/20');
+    }
+</script>
+
+{% endblock %}
